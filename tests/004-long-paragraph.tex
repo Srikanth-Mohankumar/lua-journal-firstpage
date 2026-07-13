@@ -1,0 +1,12 @@
+\documentclass{tnqjournal}
+\title{Single Long Paragraph Crossing the First-Page Boundary}
+\abstracttext{This regression forces one uninterrupted paragraph to continue across a page boundary without any source-level page command.}
+\keywords{paragraph split; line breaking; automation}
+\authorstub{\textbf{Boundary Tester}\par Chennai, India}
+\begin{document}
+\maketitle
+\section{Introduction}
+TOKEN001 Automated composition receives a continuous stream of structured article content. TOKEN002 The converter cannot predict the exact line on which the first page ends. TOKEN003 Fonts, title length, abstract length, and metadata all influence the available body height. TOKEN004 A robust template must therefore make the decision during composition. TOKEN005 This paragraph deliberately contains many uniquely numbered sentences. TOKEN006 The identifiers allow text extraction to detect missing or duplicated material. TOKEN007 The paragraph remains open while the page boundary is crossed. TOKEN008 Waiting for the paragraph to end would leave an unacceptable blank region. TOKEN009 Breaking already formed lines without reflow can create an incorrect measure. TOKEN010 The production milestone will preserve source-node identity across the handoff. TOKEN011 The numbered sequence should appear exactly once and in order in the PDF. TOKEN012 Further sentences increase the chance that the paragraph crosses the page goal. TOKEN013 The test intentionally avoids lists, equations, footnotes, and floats. TOKEN014 Those structures belong to later focused regressions. TOKEN015 The present milestone proves the continuous-input baseline. TOKEN016 Automated scripts can compare extracted tokens with this source. TOKEN017 Visual comparison can separately inspect line width and column placement. TOKEN018 A failure must remain visible rather than being hidden by a manual page break. TOKEN019 The document contains no finish-first-page command. TOKEN020 It contains no explicit two-column switch. TOKEN021 The article continues with additional technical prose describing XML normalization, semantic preparation, pagination, and output validation. TOKEN022 Each stage must remain deterministic under repeated compilation. TOKEN023 Missing or duplicated content is considered a hard failure. TOKEN024 The page builder should expose enough diagnostics for a production incident to be reproduced. TOKEN025 This final sentence closes the long paragraph normally.
+\section{Following section}
+This section confirms that later content remains in ordinary automatic flow.
+\end{document}
