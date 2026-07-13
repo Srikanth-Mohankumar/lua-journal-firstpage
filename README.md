@@ -1,30 +1,37 @@
 # Lua Journal First Page
 
-Experimental LuaLaTeX journal template for a fully automatic first-page layout followed by native two-column article flow.
+Research implementation of a fully automatic LuaLaTeX journal first page followed by native two-column article flow.
 
-## Goals
+## Current milestone
 
-- No manual `\newpage`, `\twocolumn`, or `\finishfirstpage` command in article sources.
-- Journal-style first page with masthead, title, abstract panel, and author stub.
-- Abstract and stub are measured independently and may continue automatically.
-- Long introductory paragraphs may break at line level.
-- Native LaTeX two-column flow after front matter.
-- Floats are intentionally out of scope for this first phase; the project is designed to integrate later with deterministic Lua float reservation.
+- No `\finishfirstpage`, manual `\newpage`, or source-level `\twocolumn` command.
+- First-page masthead, title, abstract panel, author stub, rules, and flowing introduction.
+- Native LaTeX two-column flow for the prose-only baseline.
+- Lua diagnostics for paragraph processing.
+- Regression corpus for long titles, long abstracts, a single long paragraph, and longer articles.
+- Floats are intentionally excluded from this milestone.
 
-## Quick start
+## Build
 
 ```bash
 make example
 make test
 ```
 
-Compile an example directly:
+Direct compilation:
 
 ```bash
-lualatex -interaction=nonstopmode -halt-on-error examples/neopage-technical-article.tex
-lualatex -interaction=nonstopmode -halt-on-error examples/neopage-technical-article.tex
+TEXINPUTS=.:src//: lualatex -interaction=nonstopmode -halt-on-error examples/neopage-technical-article.tex
 ```
+
+## Repository layout
+
+- `src/tnqjournal.cls` — class and automatic front-matter layout.
+- `src/tnqjournal.lua` — Lua diagnostics and callback foundation.
+- `examples/` — realistic NeoPage technical article.
+- `tests/` — focused prose-only regressions.
+- `docs/` — architecture, state machine, and known risks.
 
 ## Status
 
-Research prototype. Not production ready. The repository includes a regression corpus for long title, long abstract, long stub, long single paragraph, lists, equations, and long article content.
+Research prototype. The current branch establishes a compiling native-flow baseline. The next implementation milestone is the special first-page page-builder that keeps the reference design while supporting line-level continuation, multi-page abstract flow, and multi-page author-stub reservations. It must pass content-integrity, visual, footnote, tagging, and continuation tests before production use.
