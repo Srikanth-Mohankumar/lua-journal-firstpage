@@ -1,0 +1,42 @@
+\documentclass{tnqjournal}
+\title{A LuaLaTeX Page-Builder Architecture for Fully Automated Journal Composition}
+\journalname{Utility Policy}
+\articlemeta{Volume 94, March 2026, 101902}
+\abstracttext{Automated scholarly composition requires a first-page design that can accept arbitrary metadata and article prose without source-level page controls. This paper presents an experimental LuaLaTeX architecture for a journal page with a masthead, title, abstract panel, author stub, and an automatic transition to native two-column composition. The design uses page-builder state, line-aware diagnostics, and a narrow handoff surface so that later deterministic float placement can remain independent.}
+\keywords{LuaLaTeX; page builder; automated typesetting; journal production; NeoPage}
+\authorstub{\textbf{Arun Kumar}\par TNQ Technologies, Chennai, India\par\medskip\textbf{Meera Nair}\par Publishing Automation Research Group\par\medskip Received 3 January 2026\par Accepted 18 February 2026\par\medskip Correspondence: research@example.org}
+\begin{document}
+\maketitle
+
+\section{Introduction}
+Modern publishing systems receive structured XML rather than hand-authored TeX. The composition layer must therefore make page decisions without expecting an editor, converter, or author to mark the end of the first page. A production template should accept ordinary continuous article content and should remain correct when a title, abstract, author list, or introductory paragraph becomes substantially longer than the reference sample.
+
+The first page is especially difficult because its main text region, abstract panel, and author stub do not follow the same geometry as later pages. Any production implementation must preserve reading order, prevent content loss or duplication, and hand control to the regular two-column page builder without source-level intervention.
+
+\section{System requirements}
+The implementation is guided by four requirements. First, article sources must contain no page-aware commands. Second, content integrity must be testable: words may not disappear, repeat, or change order during the transition. Third, the visual design must remain stable across short and long metadata. Fourth, the architecture must expose clear diagnostics so that failures can be reproduced from automated regression runs.
+
+\subsection{Continuous input stream}
+The source document follows ordinary LaTeX structure. Metadata is declared before the document body, \verb|\maketitle| emits the journal front matter, and every subsequent section is unremarkable article content. The conversion pipeline never needs to know how much material fits on page one.
+
+\subsection{Narrow integration surface}
+The deterministic float-placement mechanism used by the production system is deliberately excluded from the first milestone. The prose-only engine should stabilize first, after which page and column reservations can be connected without changing article markup.
+
+\section{XML normalization}
+Supplier XML varies in element naming, nesting, identifier conventions, and namespace use. A normalization layer converts those differences into a predictable internal model. Stable semantics simplify downstream typesetting and make regressions easier to isolate. Authors, affiliations, citations, equations, figures, tables, and supplementary objects are linked before composition so that the formatter does not infer relationships from visual order.
+
+\section{Pagination model}
+Page construction combines line breaking, vertical breaking, headings, insertions, and reserved regions. Deterministic behaviour is essential because automated quality checks compare current output with approved expectations. The first-page engine is only one component of this broader workflow, but it must be designed so that later column hooks can reserve measured space for predicted objects.
+
+\section{Content-integrity strategy}
+Regression tests use distinctive numbered sentences and tokens so that extracted PDF text can be compared with the source sequence. A test fails when a token is absent, duplicated, or reordered. Visual tests separately inspect page size, rule placement, title wrapping, abstract boundaries, stub placement, and the native two-column grid.
+
+\section{Diagnostics}
+The Lua module writes concise state messages to the terminal and log. The current baseline counts processed paragraphs and confirms automatic native flow. Later page-builder work will add transition state, node checksums, split boundaries, and rollback diagnostics.
+
+\section{Limitations}
+This repository is a research implementation. The current baseline compiles and provides realistic multi-page content, but it does not yet implement independent multi-page abstract and stub continuations. Footnotes, tagged-PDF nodes, bidirectional text, paragraph shapes, and insertion-heavy edge cases require dedicated regressions before production adoption.
+
+\section{Conclusion}
+The project establishes a clean repository, a compiling LuaLaTeX baseline, realistic article content, and a regression structure. The next milestone is to replace the native first-page body with a special page-builder while keeping the source unchanged and preserving the reference design.
+\end{document}
