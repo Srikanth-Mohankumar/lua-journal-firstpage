@@ -1,0 +1,28 @@
+\documentclass{tnqjournal}
+\title{Automatic first-page continuation for long technical article content}
+\journalname{Utility Policy}
+\articlemeta{Research Article}
+\abstracttext{This regression article exercises continuous prose without figures or tables. The abstract is intentionally substantial enough to reduce the remaining first-page body area while still allowing the Introduction to begin. The expected production behaviour is that TeX may break the opening paragraph at line level and continue its remaining lines in the native two-column article area without loss, duplication, or a source-level page marker.}
+\keywords{LuaLaTeX; page builder; automatic pagination; first page; regression testing}
+\authorstub{Srikanth Mohankumar\\TNQ Technologies\\Chennai, India\\[8pt]Correspondence:\\srikanth@example.invalid\\[8pt]Received 13 July 2026\\Accepted 13 July 2026}
+\begin{document}
+\maketitle
+\section{Introduction}
+NeoPage is an automated scholarly composition platform that transforms structured XML, publication metadata, mathematical expressions, tabular material, and editorial instructions into stable page-oriented output. A production composition engine cannot depend on an operator identifying the final paragraph of the first page, because the available depth changes with every article title, abstract, author group, affiliation list, keyword set, font metric, and journal configuration. The template must therefore accept one uninterrupted article stream and allow the page builder to choose the exact line at which the first page ends. This opening paragraph is intentionally long. It continues with a realistic description of the processing chain so that the paragraph crosses the first-page boundary under ordinary settings. During ingestion the platform validates identifiers, normalizes metadata, resolves cross-references, classifies display objects, and records publication-specific properties. During composition it applies semantic styles, measures paragraphs, calculates penalties, predicts page geometry, and emits diagnostics for content that cannot be placed under the active constraints. During finalization it checks folios, running heads, references, accessibility structures, and output consistency. None of those stages should require an instruction such as finish-first-page or switch-to-two-columns. The article source should remain unaware of page boundaries, while the class and Lua layer coordinate page construction, continuation, and integrity checks. This requirement is especially important for large-scale XML conversion where thousands of articles may contain different title lengths, unusually long abstracts, dense author stubs, deeply nested lists, and paragraphs that naturally cross a page boundary. A correct implementation must preserve every line exactly once and must never postpone an entire paragraph merely because its final lines do not fit on page one.
+
+The next paragraph verifies that normal paragraph separation remains intact after the crossing paragraph. The engine should retain indentation and spacing according to the journal specification.
+
+\section{Architecture}
+The implementation separates visual design, metadata storage, page-builder observation, and later float targeting. The current phase excludes floats so that failures can be attributed to text flow alone.
+
+\subsection{Integrity requirements}
+Every regression run must confirm that words are neither missing nor duplicated, that paragraph order remains stable, and that the transition to native two-column output occurs only once.
+
+\section{Evaluation}
+Additional prose is included to generate several pages. Repeated compilation must produce identical pagination when the source, engine version, and fonts are unchanged. Diagnostics should report paragraph counts, generated line counts, page-builder activity, and shipped pages. These values provide a lightweight signal for unexpected layout changes before image comparison is performed.
+
+The evaluation corpus will later add lists, equations, footnotes, references, and deterministic predicted floats. Those features are deliberately deferred until continuous text is reliable.
+
+\section{Conclusion}
+This test defines the primary failure that the next page-builder implementation must resolve: a long paragraph beginning below the abstract must divide naturally between the special first page and the following two-column article pages without manual intervention.
+\end{document}
