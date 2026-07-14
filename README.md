@@ -2,6 +2,15 @@
 
 Research implementation of a fully automatic LuaLaTeX journal first page followed by native two-column article flow.
 
+## Architecture
+
+![Transactional LuaLaTeX first-page architecture](docs/architecture-diagram.svg)
+
+- [Technical architecture review and production hardening plan](docs/architecture-review.md)
+- [Architecture diagram as standalone SVG](docs/architecture-diagram.svg)
+
+The engine keeps the original article page list and author-stub stream untouched while transaction-owned copies are split, rehomed and validated. A valid partition is committed and handed back to the native two-column output routine; an invalid partition is rolled back without consuming the source material.
+
 ## Current milestone
 
 - No `\finishfirstpage`, manual `\newpage`, or source-level `\twocolumn` command.
@@ -54,7 +63,7 @@ TEXINPUTS=.:src//: lualatex -interaction=nonstopmode -halt-on-error examples/neo
   mark, and CC BY badge; these are visual assets, not architectural inputs.
 - `examples/` — realistic NeoPage technical article.
 - `tests/` — focused prose-only regressions.
-- `docs/` — architecture, state machine, and known risks.
+- `docs/` — architecture, state machine, review notes, diagram, and known risks.
 
 ## Status
 
