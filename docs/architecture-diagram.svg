@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Transactional LuaLaTeX first-page architecture</title>
+  <desc id="desc">Technical architecture showing article input, TeX page builder, Lua ownership tracking, transactional split, validation, commit or rollback, and native two-column continuation.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#263373"/></marker>
+    <style>
+      .box{fill:#fff;stroke:#263373;stroke-width:2.4;rx:16;ry:16}.core{fill:#f4f5fa}.good{fill:#edf7ef}.warn{fill:#fff4ec}.future{fill:#f4f4f4}.t{font:700 21px Arial,sans-serif;fill:#20232a}.s{font:15px Arial,sans-serif;fill:#41444b}.lane{font:700 15px Arial,sans-serif;fill:#263373;letter-spacing:1.5px}.a{stroke:#263373;stroke-width:2.4;fill:none;marker-end:url(#arrow)}.dash{stroke-dasharray:8 7}
+    </style>
+  </defs>
+  <rect width="1600" height="900" fill="#ffffff"/>
+  <text x="800" y="48" text-anchor="middle" font-family="Arial,sans-serif" font-size="31" font-weight="700" fill="#20232a">Transactional LuaLaTeX First-Page Architecture</text>
+  <text x="800" y="78" text-anchor="middle" font-family="Arial,sans-serif" font-size="17" fill="#55585e">Automatic special first page → validated commit → native two-column continuation</text>
+
+  <text class="lane" x="35" y="165" transform="rotate(-90 35 165)">INPUT</text>
+  <rect class="box" x="65" y="115" width="235" height="100"/><text class="t" x="182" y="151" text-anchor="middle">Article Source</text><text class="s" x="182" y="179" text-anchor="middle">Normal LaTeX content</text><text class="s" x="182" y="200" text-anchor="middle">No manual page handoff</text>
+  <rect class="box" x="350" y="115" width="245" height="100"/><text class="t" x="472" y="151" text-anchor="middle">Class Orchestrator</text><text class="s" x="472" y="179" text-anchor="middle">tnqjournal.cls</text><text class="s" x="472" y="200" text-anchor="middle">state, geometry, output routine</text>
+  <rect class="box" x="645" y="115" width="235" height="100"/><text class="t" x="762" y="151" text-anchor="middle">TeX Page Builder</text><text class="s" x="762" y="179" text-anchor="middle">paragraphs, penalties, marks</text><text class="s" x="762" y="200" text-anchor="middle">and vertical list</text>
+  <rect class="box" x="930" y="115" width="250" height="100"/><text class="t" x="1055" y="151" text-anchor="middle">Lua Instrumentation</text><text class="s" x="1055" y="179" text-anchor="middle">stable line/origin IDs</text><text class="s" x="1055" y="200" text-anchor="middle">payload and mark ledgers</text>
+  <rect class="box" x="1230" y="115" width="280" height="100"/><text class="t" x="1370" y="151" text-anchor="middle">Transaction Trigger</text><text class="s" x="1370" y="179" text-anchor="middle">one-shot first-page</text><text class="s" x="1370" y="200" text-anchor="middle">output controller</text>
+  <path class="a" d="M300 165H350"/><path class="a" d="M595 165H645"/><path class="a" d="M880 165H930"/><path class="a" d="M1180 165H1230"/>
+
+  <text class="lane" x="35" y="405" transform="rotate(-90 35 405)">TRANSACTION</text>
+  <rect class="box core" x="70" y="310" width="250" height="130"/><text class="t" x="195" y="350" text-anchor="middle">Original Inputs</text><text class="s" x="195" y="380" text-anchor="middle">article vlist + independent</text><text class="s" x="195" y="403" text-anchor="middle">author-stub stream</text>
+  <rect class="box core" x="380" y="310" width="250" height="130"/><text class="t" x="505" y="350" text-anchor="middle">Copy &amp; Stage</text><text class="s" x="505" y="380" text-anchor="middle">originals remain untouched</text><text class="s" x="505" y="403" text-anchor="middle">scratch copies are owned</text>
+  <rect class="box core" x="690" y="310" width="250" height="130"/><text class="t" x="815" y="350" text-anchor="middle">Split &amp; Rehome</text><text class="s" x="815" y="379" text-anchor="middle">line-level split</text><text class="s" x="815" y="402" text-anchor="middle">width retries + mark rehoming</text>
+  <rect class="box core" x="1000" y="310" width="250" height="130"/><text class="t" x="1125" y="350" text-anchor="middle">Validate</text><text class="s" x="1125" y="378" text-anchor="middle">exact-once source order</text><text class="s" x="1125" y="401" text-anchor="middle">lines, origins, marks, payloads</text>
+  <rect class="box core" x="1310" y="310" width="220" height="130"/><text class="t" x="1420" y="350" text-anchor="middle">Decision</text><text class="s" x="1420" y="380" text-anchor="middle">commit only when</text><text class="s" x="1420" y="403" text-anchor="middle">all ledgers pass</text>
+  <path class="a" d="M320 375H380"/><path class="a" d="M630 375H690"/><path class="a" d="M940 375H1000"/><path class="a" d="M1250 375H1310"/>
+
+  <text class="lane" x="35" y="620" transform="rotate(-90 35 620)">OUTCOME</text>
+  <rect class="box good" x="150" y="535" width="340" height="125"/><text class="t" x="320" y="575" text-anchor="middle">COMMIT PATH</text><text class="s" x="320" y="606" text-anchor="middle">compose and ship special page 1</text><text class="s" x="320" y="630" text-anchor="middle">restore exact article remainder</text>
+  <rect class="box good" x="630" y="535" width="340" height="125"/><text class="t" x="800" y="575" text-anchor="middle">NATIVE HANDOFF</text><text class="s" x="800" y="606" text-anchor="middle">restore kernel output routine</text><text class="s" x="800" y="630" text-anchor="middle">continue normal two-column flow</text>
+  <rect class="box warn" x="1110" y="535" width="340" height="125"/><text class="t" x="1280" y="575" text-anchor="middle">ROLLBACK PATH</text><text class="s" x="1280" y="606" text-anchor="middle">discard transaction-owned copies</text><text class="s" x="1280" y="630" text-anchor="middle">restore untouched originals; fail closed</text>
+  <path class="a" d="M1420 440C1320 495 700 480 320 535"/><text class="s" x="760" y="482" text-anchor="middle">valid</text>
+  <path class="a" d="M1420 440C1415 485 1350 500 1280 535"/><text class="s" x="1395" y="493">invalid</text>
+  <path class="a" d="M490 598H630"/>
+
+  <text class="lane" x="35" y="810" transform="rotate(-90 35 810)">CONTINUATION</text>
+  <rect class="box" x="65" y="745" width="310" height="105"/><text class="t" x="220" y="782" text-anchor="middle">Abstract Continuation</text><text class="s" x="220" y="810" text-anchor="middle">split-safe panel lines</text><text class="s" x="220" y="832" text-anchor="middle">keywords remain before Introduction</text>
+  <rect class="box" x="440" y="745" width="310" height="105"/><text class="t" x="595" y="782" text-anchor="middle">Stub Continuation</text><text class="s" x="595" y="810" text-anchor="middle">independent right-column staging</text><text class="s" x="595" y="832" text-anchor="middle">measured top reservation</text>
+  <rect class="box" x="815" y="745" width="310" height="105"/><text class="t" x="970" y="782" text-anchor="middle">Native Article Flow</text><text class="s" x="970" y="810" text-anchor="middle">kernel two-column output</text><text class="s" x="970" y="832" text-anchor="middle">running heads and pagination</text>
+  <rect class="box future" x="1190" y="745" width="310" height="105"/><text class="t" x="1345" y="782" text-anchor="middle">Future Integration</text><text class="s" x="1345" y="810" text-anchor="middle">separate deterministic</text><text class="s" x="1345" y="832" text-anchor="middle">float-reservation subsystem</text>
+  <path class="a" d="M800 660C700 705 390 710 220 745"/><path class="a" d="M800 660C735 705 650 715 595 745"/><path class="a" d="M800 660C855 705 925 715 970 745"/><path class="a dash" d="M1125 798H1190"/>
+</svg>
