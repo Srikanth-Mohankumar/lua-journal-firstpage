@@ -1,0 +1,18 @@
+\documentclass{tnqjournal}
+\title{Exact Page-One Abstract and Keyword Boundary}
+\newcount\exactrepeat
+\newcommand\exactabstractchunks{%
+  \exactrepeat=0
+  \loop
+    Exact-fit metadata remains a sequence of ordinary paragraphs and formed lines; the page builder must not create a phantom fragment when its keyword terminator reaches the measured page-one boundary.
+    \advance\exactrepeat by 1
+  \ifnum\exactrepeat<17
+  \repeat}
+\abstracttext{EXACTABSSTART9621 \exactabstractchunks EXACTABSEND9622}
+\keywords{transaction boundary; exact fit; EXACTKEYWORDS9623}
+\authorstub{\textbf{Boundary Tester}\par Chennai, India}
+\begin{document}
+\maketitle
+\section{Introduction}
+EXACTINTRO9624 The article stream resumes in native two-column measure only after the exact abstract and keyword fragment.
+\end{document}

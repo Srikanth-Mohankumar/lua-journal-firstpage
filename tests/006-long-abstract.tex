@@ -1,0 +1,20 @@
+\documentclass{tnqjournal}
+\title{Long Abstract Continuation Regression}
+\newcommand\abstractchunk{Automated scholarly composition cannot assume a fixed metadata height. The abstract must remain a splittable sequence of formed lines, and the Introduction must not overtake its continuation. }
+\newcount\abstractrepeat
+\newcommand\manyabstractchunks{%
+  \abstractrepeat=0
+  \loop
+    \abstractchunk
+    \advance\abstractrepeat by 1
+  \ifnum\abstractrepeat<84
+  \repeat}
+\abstracttext{ABSSTART9101
+\manyabstractchunks ABSEND9102}
+\keywords{long abstract; automatic continuation; source order; ABSKEY9103}
+\authorstub{\textbf{Abstract Tester}\par Chennai, India}
+\begin{document}
+\maketitle
+\section{Introduction}
+INTROAFTER9104 The Introduction must appear only after the complete abstract and keyword block.
+\end{document}

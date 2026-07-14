@@ -1,0 +1,51 @@
+{
+  "provenance": "Measurements from the supplied published Urology Research and Practice article raster PDF; the handcrafted urp_flow_template_v6 was consulted only as a secondary dimensional specification. No output architecture is reused.",
+  "page_points": [609.12, 793.92],
+  "anchors": {
+    "abstract_x": {"reference": 83.532, "range": [77.0, 86.0]},
+    "introduction_x": {"reference": 69.738, "range": [66.0, 73.0]},
+    "main_left_x": {"reference": 69.738, "range": [66.0, 73.0]},
+    "main_right_x": {"reference": 413.7, "range": [408.0, 416.0]},
+    "stub_x": {"reference": 436.923, "range": [431.0, 441.0]},
+    "native_left_x": {"reference": 42.839, "range": [40.0, 48.0]},
+    "title_to_abstract_y_gap": {"reference": 34.863, "range": [33.5, 36.0]},
+    "running_head_y": {"reference": 42.72, "range": [41.5, 43.8]},
+    "native_body_top_y": {"reference": 67.2, "range": [66.0, 70.5]}
+  },
+  "colors": {
+    "abstract_panel_rgb": [233, 235, 241],
+    "rail_rgb": [38, 51, 115]
+  },
+  "rail_x_points": [44.0, 49.0],
+  "panel_left_points": [69.0, 71.0],
+  "panel_right_points": [411.0, 413.0],
+  "panel_label_top_gap_points": [10.0, 12.5],
+  "minimum_panel_pixels_at_144dpi": 5000,
+  "minimum_rail_pixels_at_144dpi": 500,
+  "minimum_rounded_corner_inset_pixels_at_144dpi": 10,
+  "published_profile": {
+    "raster_dpi": 150,
+    "rendered_page_pixels": [1269, 1654],
+    "panel_bbox_pixels": {"x": [144, 146], "y": [447, 449], "right": [858, 860], "bottom": [1089, 1091]},
+    "logo_bbox_pixels": {"x": [154, 156], "y": [94, 96], "right": [558, 560], "bottom": [201, 203]},
+    "rail_bbox_pixels": {"x": [94, 96], "right": [98, 99]},
+    "badge_bbox_pixels": {"x": [144, 146], "y": [1520, 1522], "right": [233, 235], "bottom": [1551, 1553]},
+    "page_number_y_pixels": {"top": [1595, 1597], "bottom": [1607, 1609]},
+    "page_rule_y_pixels": [1615, 1617],
+    "minimum_panel_ink_pixels": 63000,
+    "minimum_exact_dark_panel_pixels": 10000,
+    "anchors": {
+      "meta_y": [45.0, 46.3],
+      "title_y": [120.2, 121.7],
+      "abstract_y": [225.0, 226.4],
+      "introduction_y": [541.1, 542.7],
+      "author_x": [437.2, 439.0],
+      "author_y": [376.3, 378.2],
+      "details_y": [515.2, 516.9],
+      "correspondence_y": [599.5, 601.1],
+      "dates_y": [630.5, 632.4],
+      "citation_y": [680.3, 682.2],
+      "citation_bottom": [746.8, 748.6]
+    }
+  }
+}

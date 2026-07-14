@@ -1,0 +1,14 @@
+\documentclass{tnqjournal}
+\title{Forced Transaction Rollback Regression}
+\abstracttext{The validator is deliberately instructed to reject this otherwise valid transaction. The original page and independently owned author stub must survive byte-for-byte structural fingerprint comparison.}
+\keywords{rollback; fault injection; transaction}
+\authorstub{\textbf{ROLLBACKSTUB9501}\par Chennai, India\par Original stub content.}
+\newcommand\rollbackchunk{ROLLBACKPAGE9502 The original page stream contains enough prose to invoke the first-page output transaction. A forced validator failure must discard only scratch boxes and preserve the untouched transaction inputs. }
+\begin{document}
+\directlua{tnqjournal.force_failure("first")}
+\maketitle
+\section{Introduction}
+\rollbackchunk\rollbackchunk\rollbackchunk\rollbackchunk\rollbackchunk
+\rollbackchunk\rollbackchunk\rollbackchunk\rollbackchunk\rollbackchunk
+\rollbackchunk\rollbackchunk\rollbackchunk\rollbackchunk\rollbackchunk
+\end{document}

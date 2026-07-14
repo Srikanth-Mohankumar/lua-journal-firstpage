@@ -1,0 +1,18 @@
+\documentclass{tnqjournal}
+\title{Author-Stub Boundary Plus One Line}
+\abstracttext{This companion case adds one line origin beyond the exact author-fragment boundary.}
+\keywords{overflow; author stub; boundary}
+\newcount\stubrow
+\newcommand\stubrows{%
+  \stubrow=1
+  \loop
+    Overflow stub row \the\stubrow\par
+    \advance\stubrow by 1
+  \ifnum\stubrow<31
+  \repeat}
+\authorstub{OVERSTUBSTART9611\par\stubrows OVERSTUBEND9612}
+\begin{document}
+\maketitle
+\section{Introduction}
+OVERARTICLE9613 The single excess line must be owned by exactly one continuation fragment.
+\end{document}
