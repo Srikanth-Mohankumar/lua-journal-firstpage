@@ -1,0 +1,32 @@
+\documentclass{tnqjournal}
+\usepackage{enumitem}
+\title{Paragraph-to-List Handoff Regression}
+\abstracttext{This test forces one uninterrupted paragraph across the transactional page-one boundary and immediately follows it with a list.}
+\keywords{handoff; paragraph split; list; native columns}
+\authorstub{\textbf{Handoff Tester}\par Chennai, India}
+\newcommand\handoffchunk{The formatter separates article semantics from visual presentation while retaining every formed line in source order. A section remains a section, a citation remains a citation, and the running article stream must continue without an artificial column break. }
+\newcommand\afterchunk{Native composition must use both columns normally after the one-shot first-page transaction has committed. Headings, lists, and ordinary paragraphs remain in their semantic order and may cross later columns under the kernel output routine. }
+\begin{document}
+\maketitle
+\section{Introduction}
+HANDOFFSTART9401
+\handoffchunk\handoffchunk\handoffchunk\handoffchunk\handoffchunk
+\handoffchunk\handoffchunk\handoffchunk\handoffchunk\handoffchunk
+\handoffchunk\handoffchunk\handoffchunk\handoffchunk\handoffchunk
+\handoffchunk\handoffchunk\handoffchunk\handoffchunk\handoffchunk
+HANDOFFTAIL9402 The final lines of this paragraph must remain at the top of
+the native left column and must not force that column to close early.
+\begin{enumerate}[leftmargin=*,itemsep=4pt]
+  \item LISTONE9403 Structured input remains semantic.
+  \item LISTTWO9404 Template rules remain declarative.
+  \item LISTTHREE9405 Native two-column composition resumes normally.
+\end{enumerate}
+\section{Materials and Methods}
+AFTERLIST9406 \afterchunk\afterchunk\afterchunk\afterchunk\afterchunk
+\afterchunk\afterchunk\afterchunk\afterchunk\afterchunk
+\afterchunk\afterchunk\afterchunk\afterchunk\afterchunk
+\afterchunk\afterchunk\afterchunk\afterchunk\afterchunk
+\afterchunk\afterchunk\afterchunk\afterchunk\afterchunk
+RIGHTCOLUMN9407 The second native column must contain article material rather
+than being left empty by a leaked transaction-control penalty.
+\end{document}

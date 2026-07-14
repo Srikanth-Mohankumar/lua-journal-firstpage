@@ -1,0 +1,26 @@
+\documentclass{tnqjournal}
+\title{Delayed Payload Ownership Regression}
+\abstracttext{Delayed writes, named destinations, and PDF literal nodes must follow the same exact-once partition accounting as formed text lines.}
+\keywords{whatsit nodes; delayed write; destination; ownership}
+\authorstub{\textbf{Payload Tester}\par Chennai, India}
+\newwrite\tnqpayloadstream
+\immediate\openout\tnqpayloadstream=\jobname.tnqwrite
+\newcommand\payloadchunk{The transactional splitter moves a scratch copy of each payload with its containing line or vertical position. Stable origin identifiers prove that the selected page fragment and retained tail form an ordered, lossless partition. }
+\begin{document}
+\maketitle
+\section{Introduction}
+PAYLOADSTART9701
+\write\tnqpayloadstream{WRITEFIRST9704}
+\pdfextension dest name {tnq-payload-first} xyz
+\payloadchunk\payloadchunk\payloadchunk\payloadchunk\payloadchunk
+\payloadchunk\payloadchunk\payloadchunk\payloadchunk\payloadchunk
+\payloadchunk\payloadchunk\payloadchunk\payloadchunk\payloadchunk
+\payloadchunk\payloadchunk\payloadchunk\payloadchunk\payloadchunk
+\payloadchunk\payloadchunk
+PAYLOADTAIL9702
+\write\tnqpayloadstream{WRITESECOND9705}
+\pdfextension dest name {tnq-payload-second} xyz
+The native continuation owns the remaining delayed payload exactly once.
+\section{Conclusion}
+PAYLOADEND9703 No instrumentation node may be lost or duplicated.
+\end{document}

@@ -1,0 +1,32 @@
+\documentclass{tnqjournal}
+\NewMarkClass{tnq-handoff}
+\fancyhead[LE]{\bfseries\fontsize{7.2}{8}\selectfont
+  MARKTOP9811-\TopMark{tnq-handoff}\quad
+  MARKFIRST9812-\FirstMark{tnq-handoff}\quad
+  MARKLAST9813-\LastMark{tnq-handoff}}
+\title{LaTeX Mark-Class Handoff Regression}
+\abstracttext{The special first page must update the current LaTeX mark-class structures before control returns to the kernel two-column output routine.}
+\keywords{mark classes; running head; output handoff}
+\authorstub{\textbf{Mark Tester}\par Chennai, India}
+\newcommand\markchunk{A running-head mark belongs to the article stream and follows its source position across the transactional split. The independently composed author lane must not alter article mark state. }
+\newcommand\markafterchunk{Ordinary native composition retains the mark regions assembled by the LaTeX kernel for the current page and its two columns. }
+\begin{document}
+\maketitle
+\section{Introduction}
+\InsertMark{tnq-handoff}{PAGEONE9801}
+MARKSTART9804
+\markchunk\markchunk\markchunk\markchunk\markchunk
+\markchunk\markchunk\markchunk\markchunk\markchunk
+\markchunk\markchunk\markchunk\markchunk\markchunk
+\markchunk\markchunk\markchunk\markchunk\markchunk
+\markchunk\markchunk\markchunk\markchunk\markchunk
+\markchunk\markchunk\markchunk\markchunk\markchunk
+MARKTAIL9805 The first paragraph continues on the next page.\par
+\InsertMark{tnq-handoff}{PAGETWO9802}
+\section{Native continuation}
+MARKAFTER9806
+\markafterchunk\markafterchunk\markafterchunk\markafterchunk\markafterchunk
+\markafterchunk\markafterchunk\markafterchunk\markafterchunk\markafterchunk
+\markafterchunk\markafterchunk\markafterchunk\markafterchunk\markafterchunk
+\markafterchunk\markafterchunk\markafterchunk\markafterchunk\markafterchunk
+\end{document}

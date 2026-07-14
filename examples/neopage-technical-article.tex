@@ -1,42 +1,210 @@
 \documentclass{tnqjournal}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\definecolor{urpblue}{HTML}{243A82}
+\definecolor{urplight}{HTML}{E7EDF2}
+\definecolor{urpgreen}{HTML}{A7CF38}
+\definecolor{urpred}{HTML}{D83B31}
+\definecolor{urpgray}{HTML}{55585E}
+
+\newcommand{\crossref}{\textcolor{urpred}{[CrossRef]}}
+
 \title{A LuaLaTeX Page-Builder Architecture for Fully Automated Journal Composition}
-\journalname{Utility Policy}
-\articlemeta{Volume 94, March 2026, 101902}
-\abstracttext{Automated scholarly composition requires a first-page design that can accept arbitrary metadata and article prose without source-level page controls. This paper presents an experimental LuaLaTeX architecture for a journal page with a masthead, title, abstract panel, author stub, and an automatic transition to native two-column composition. The design uses page-builder state, line-aware diagnostics, and a narrow handoff surface so that later deterministic float placement can remain independent.}
+\journalwordmark{UROLOGY}
+\journalsubtitle{RESEARCH \& PRACTICE}
+\journalname{Urology Research and Practice}
+\articletype{ORIGINAL ARTICLE}
+\journalsection{Publishing Technology}
+\articlemeta{Urology Research and Practice 2026;94:101902}
+\doi{10.5152/tud.2026.101902}
+\shorttitle{Kumar et al. Automated journal composition}
+\abstracttext{%
+\textbf{Objective:} To develop an automatic first-page compositor that accepts arbitrary journal metadata and article prose without source-level page controls.
+
+\textbf{Methods:} TeX's page builder was combined with stable Lua node origins, copy-only preparation, legal vertical splitting, and pre-commit integrity validation.
+
+\textbf{Results:} The compositor preserved every formed line across a wider journal first page and the transition to native two-column output. Long abstracts and author metadata continued automatically without blocking article flow.
+
+\textbf{Conclusion:} Transactional ownership and page-builder-aware line shaping provide a practical basis for fully automated XML-to-PDF journal production.}
 \keywords{LuaLaTeX; page builder; automated typesetting; journal production; NeoPage}
-\authorstub{\textbf{Arun Kumar}\par TNQ Technologies, Chennai, India\par\medskip\textbf{Meera Nair}\par Publishing Automation Research Group\par\medskip Received 3 January 2026\par Accepted 18 February 2026\par\medskip Correspondence: research@example.org}
+\authorstub{\textbf{Arun Kumar}\orcidmark\par
+\textbf{Meera Nair}\orcidmark\par
+\textbf{Srikanth Mohankumar}\orcidmark\par
+\textbf{Rahul Dev}\orcidmark\par
+\medskip
+\stubdetails{%
+Publishing Automation Research Group, TNQ Technologies, Chennai, India\par
+\medskip
+\textbf{Corresponding author:}\par research@example.org\par
+\medskip
+\textbf{Received:} January 3, 2026\par
+\textbf{Accepted:} February 18, 2026\par
+\textbf{Publication Date:} March 1, 2026}}
+\firstpagefooter{Copyright © Author(s) -- Available online at http://urologyresearchandpractice.org/\\Content of this journal is licensed under a Creative Commons Attribution (CC BY) 4.0 International License.}
 \begin{document}
 \maketitle
 
 \section{Introduction}
-Modern publishing systems receive structured XML rather than hand-authored TeX. The composition layer must therefore make page decisions without expecting an editor, converter, or author to mark the end of the first page. A production template should accept ordinary continuous article content and should remain correct when a title, abstract, author list, or introductory paragraph becomes substantially longer than the reference sample.
+Scholarly publishing workflows must convert highly structured manuscripts into consistent print and digital products while retaining semantic meaning, visual accuracy, and journal-specific style. The source material may contain nested sections, complex mathematics, multi-part figures, extensive tables, citations, footnotes, author metadata, and accessibility information. Each of these elements must survive conversion without loss or duplication.
 
-The first page is especially difficult because its main text region, abstract panel, and author stub do not follow the same geometry as later pages. Any production implementation must preserve reading order, prevent content loss or duplication, and hand control to the regular two-column page builder without source-level intervention.
+Traditional composition systems often depend on a large number of manual corrections after initial pagination. This approach can produce high-quality pages, but it becomes difficult to scale when article volume increases, templates multiply, and turnaround expectations shorten. NeoPage was designed as an automation-first production platform in which editorial structure, typesetting behavior, and quality checks are represented as explicit, testable rules.
 
-\section{System requirements}
-The implementation is guided by four requirements. First, article sources must contain no page-aware commands. Second, content integrity must be testable: words may not disappear, repeat, or change order during the transition. Third, the visual design must remain stable across short and long metadata. Fourth, the architecture must expose clear diagnostics so that failures can be reproduced from automated regression runs.
+The aim of this study was to describe the platform design and demonstrate how structured XML, deterministic composition, automated layout intelligence, and browser-based correction can operate as a single production workflow.
 
-\subsection{Continuous input stream}
-The source document follows ordinary LaTeX structure. Metadata is declared before the document body, \verb|\maketitle| emits the journal front matter, and every subsequent section is unremarkable article content. The conversion pipeline never needs to know how much material fits on page one.
+\section{Platform Overview}
+NeoPage receives journal article XML together with images, supplementary files, template configuration, and customer metadata. The processing pipeline first validates the package, normalizes source differences, and constructs an internal article model. This model is then transformed into a typesetting representation and composed through a LuaLaTeX-based engine.
 
-\subsection{Narrow integration surface}
-The deterministic float-placement mechanism used by the production system is deliberately excluded from the first milestone. The prose-only engine should stabilize first, after which page and column reservations can be connected without changing article markup.
+The platform separates article semantics from visual presentation. A section remains a section, a citation remains a citation, and a table remains a structured table even when each journal applies a different visual treatment. Customer templates therefore control typography, spacing, page geometry, running matter, float rules, and front-matter arrangement without rewriting the article-processing core. The platform separates article semantics from visual presentation. A section remains a section, a citation remains a citation, and a table remains a structured table even when each journal applies a different visual treatment. Customer templates therefore control typography, spacing, page geometry, running matter, float rules, and front-matter arrangement without rewriting the article-processing core. NeoPage receives journal article XML together with images, supplementary files, template configuration, and customer metadata. The processing pipeline first validates the package, normalizes source differences, and constructs an internal article model. This model is then transformed into a typesetting representation and composed through a LuaLaTeX-based engine.
 
-\section{XML normalization}
-Supplier XML varies in element naming, nesting, identifier conventions, and namespace use. A normalization layer converts those differences into a predictable internal model. Stable semantics simplify downstream typesetting and make regressions easier to isolate. Authors, affiliations, citations, equations, figures, tables, and supplementary objects are linked before composition so that the formatter does not infer relationships from visual order.
+The platform separates article semantics from visual presentation. A section remains a section, a citation remains a citation, and a table remains a structured table even when each journal applies a different visual treatment. Customer templates therefore control typography, spacing, page geometry, running matter, float rules, and front-matter arrangement without rewriting the article-processing core. The platform separates article semantics from visual presentation. A section remains a section, a citation remains a citation, and a table remains a structured table even when each journal applies a different visual treatment. Customer templates therefore control typography, spacing, page geometry, running matter, float rules, and front-matter arrangement without rewriting the article-processing core.
 
-\section{Pagination model}
-Page construction combines line breaking, vertical breaking, headings, insertions, and reserved regions. Deterministic behaviour is essential because automated quality checks compare current output with approved expectations. The first-page engine is only one component of this broader workflow, but it must be designed so that later column hooks can reserve measured space for predicted objects.
+\begin{enumerate}
+\item \textit{Structured input:} Article XML is normalized into a stable internal model before composition.
+\item \textit{Template independence:} Journal-specific design is separated from content semantics.
+\item \textit{Automated quality control:} Layout, references, assets, and structural rules are checked before proof review.
+\item \textit{Human-in-the-loop correction:} Operators review only exceptions and editorial decisions that require judgment.
+\end{enumerate}
 
-\section{Content-integrity strategy}
-Regression tests use distinctive numbered sentences and tokens so that extracted PDF text can be compared with the source sequence. A test fails when a token is absent, duplicated, or reordered. Visual tests separately inspect page size, rule placement, title wrapping, abstract boundaries, stub placement, and the native two-column grid.
+\section{Materials and Methods}
+\subsection{Input Corpus}
+The evaluation corpus contained 1,200 representative articles from science, technology, medicine, humanities, and social science journals. Articles varied from 4 to 38 pages and included single- and double-column designs, mathematical displays, chemical structures, large tables, landscape material, appendices, and supplementary information.
 
-\section{Diagnostics}
-The Lua module writes concise state messages to the terminal and log. The current baseline counts processed paragraphs and confirms automatic native flow. Later page-builder work will add transition state, node checksums, split boundaries, and rollback diagnostics.
+\subsection{XML Normalization}
+Incoming XML was mapped into a common vocabulary. Supplier-specific wrappers, alternative identifier conventions, and inconsistent inline structures were standardized while preserving the original content. Validation rules checked mandatory metadata, reference targets, figure and table assets, equation identifiers, and permissible nesting.
 
-\section{Limitations}
-This repository is a research implementation. The current baseline compiles and provides realistic multi-page content, but it does not yet implement independent multi-page abstract and stub continuations. Footnotes, tagged-PDF nodes, bidirectional text, paragraph shapes, and insertion-heavy edge cases require dedicated regressions before production adoption.
+\subsection{Composition Engine}
+The composition engine generated LaTeX from the normalized article model. Lua callbacks were used where node-level inspection was required, including float analysis, line-level diagnostics, and page-quality checks. Journal configuration defined page size, text area, fonts, heading hierarchy, caption design, table rules, and front-matter arrangement.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=.31\textwidth,height=115pt]{example-image-a}\hfill
+\includegraphics[width=.31\textwidth,height=115pt]{example-image-b}\hfill
+\includegraphics[width=.31\textwidth,height=115pt]{example-image-c}
+\par\vspace{-1pt}
+\noindent\colorbox{urpblue}{\parbox{\dimexpr\textwidth-2\fboxsep\relax}{\color{white}\bfseries\fontsize{7.45}{8.7}\selectfont Figure 1. Major stages of the NeoPage workflow: (A) normalized XML and assets; (B) template-driven composition; and (C) publication-ready PDF and digital outputs.}}
+\end{figure*}
+
+\subsection{Layout Intelligence}
+Rules were added for float placement, table fitting, heading-orphan prevention, page-top alignment, and detection of text loss or duplication. The engine did not treat every page as a fixed canvas. Normal article text remained in the native two-column output routine, while wide figures and tables used standard \texttt{figure*} and \texttt{table*} floats.
+
+\subsection{Automated Quality Control}
+Post-composition checks examined PDF geometry, font embedding, page count, link targets, unresolved cross-references, overfull boxes, missing images, unexpected blank pages, and visual differences against approved baselines. Results were presented as actionable findings rather than a raw compilation log.
+
+\section{System Architecture}
+The platform is divided into independently deployable services. The ingestion service validates packages and records job metadata. The conversion service maps source XML into the internal model. The composition service generates PDF and intermediate artifacts. The quality service performs structural and visual checks, and the proofing application allows operators to review and correct flagged items.
+
+A queue-based orchestration layer allows long-running composition jobs to be retried without repeating completed stages. Each stage writes versioned artifacts and machine-readable status information. This design supports traceability: a production engineer can determine which source, configuration, code revision, and font set produced a particular proof.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=.92\textwidth,height=220pt]{example-image}
+\par\vspace{-1pt}
+\noindent\colorbox{urpblue}{\parbox{\dimexpr\textwidth-2\fboxsep\relax}{\color{white}\bfseries\fontsize{7.45}{8.7}\selectfont Figure 2. Simplified service architecture. Structured article packages move through ingestion, normalization, composition, quality control, and proof review before delivery.}}
+\end{figure*}
+
+\subsection{Configuration Model}
+Template configuration is layered. Global defaults define safe baseline behavior, journal configuration defines typography and pagination, and article-level overrides handle approved exceptions. Configuration values are validated before use so that malformed dimensions or unsupported placement options fail early.
+
+\subsection{Proofing Interface}
+The browser-based proofing interface displays the PDF together with XML context and quality findings. Users can navigate directly to a page, element, or source line. Corrections are recorded as structured operations whenever possible, reducing the risk of untraceable visual-only edits.
+
+\section{Results}
+Of the 1,200 articles in the evaluation corpus, 1,146 completed automated composition without a blocking failure on the first run. Forty-two jobs required source-package correction because of missing or invalid assets, and 12 exposed unsupported structures that were subsequently added to the conversion rules.
+
+The most common non-blocking findings involved long tables, unusually wide equations, incomplete reference targets, and figures whose source dimensions differed from the declared metadata. Automated detection allowed these cases to be routed to the appropriate operator instead of remaining hidden until final visual inspection.
+
+\begin{table*}[t]
+\centering
+\fontsize{7.3}{8.5}\selectfont
+\caption*{\textbf{Table 1. Production Evaluation Summary}}
+\begin{tabularx}{\textwidth}{@{}Xrrrr@{}}
+\toprule
+\textbf{Measure} & \textbf{Baseline} & \textbf{NeoPage} & \textbf{Change} & \textbf{Target met}\\
+\midrule
+Articles completed without blocking failure & 87.8\% & 95.5\% & +7.7 points & Yes\\
+Median first-proof preparation time & 42 min & 18 min & -57.1\% & Yes\\
+Unresolved cross-references per 100 articles & 6.8 & 1.1 & -83.8\% & Yes\\
+Late-stage missing-asset findings & 19 & 3 & -84.2\% & Yes\\
+Pages requiring manual visual correction & 14.6\% & 6.2\% & -8.4 points & Yes\\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+Median first-proof preparation time decreased because routine operations such as template selection, identifier resolution, figure scaling, and standard table formatting were completed automatically. The largest time savings occurred in journals with stable design rules and well-formed source XML.
+
+\subsection{Visual Consistency}
+Page geometry, running heads, heading spacing, caption bands, and table rules remained stable across repeated builds. Regression rendering was particularly useful after changes to float handling or page-breaking logic because a code change could be compared against a corpus of approved PDFs.
+
+\begin{figure*}[b]
+\centering
+\includegraphics[width=.48\textwidth,height=155pt]{example-image-16x9}\hfill
+\includegraphics[width=.48\textwidth,height=155pt]{example-image-16x10}
+\par\vspace{-1pt}
+\noindent\colorbox{urpblue}{\parbox{\dimexpr\textwidth-2\fboxsep\relax}{\color{white}\bfseries\fontsize{7.45}{8.7}\selectfont Figure 3. Example visual-regression views used to compare approved and newly generated pages. Differences are reviewed when they exceed configured thresholds.}}
+\end{figure*}
+
+\section{Discussion}
+The results indicate that publishing automation is most effective when the system preserves semantic structure throughout the workflow. A visually correct PDF is necessary, but a production platform must also retain identifiers, links, accessibility information, and reproducible transformation history.
+
+A second finding is that deterministic composition and machine-assisted review are complementary. Deterministic rules provide consistency for ordinary cases, while automated diagnostics make exceptional cases visible. This reduces the temptation to encode fragile one-off fixes directly into journal templates.
+
+The use of standard LaTeX two-column flow after the first page was important. Text could paginate naturally, while full-width material remained under the normal float mechanism. This approach avoided large fixed minipages and reduced the risk of hidden overflow or duplicated content.
+
+\subsection{Operational Considerations}
+Automation does not remove the need for trained production staff. Editorial ambiguity, poor source artwork, unusually complex mathematical structures, and customer-specific exceptions still require human judgment. The platform therefore emphasizes targeted review rather than unattended publication.
+
+Version control and regression testing were also essential. Template and conversion changes were tested against representative article sets before release. Failures were classified as content defects, unsupported structures, template defects, or engine regressions, allowing corrective work to be assigned efficiently.
+
+\begin{table*}[t]
+\centering
+\fontsize{7.3}{8.5}\selectfont
+\caption*{\textbf{Table 2. Representative Quality-Control Rules}}
+\begin{tabularx}{\textwidth}{@{}p{105pt}X p{118pt}@{}}
+\toprule
+\textbf{Rule category} & \textbf{Example checks} & \textbf{Typical action}\\
+\midrule
+Structure & Missing figure target, duplicate identifier, invalid nesting, empty mandatory element & Return to conversion or source correction\\
+Typography & Overfull line, unsupported glyph, missing font, inconsistent heading style & Adjust template or content rule\\
+Pagination & Blank page, heading orphan, float beyond text area, unexpected page count change & Review page-breaking and float logic\\
+Assets & Missing image, corrupt file, low resolution, incorrect extension & Replace or repair source asset\\
+Links and metadata & Broken DOI, unresolved citation, incorrect running title, absent accessibility text & Correct metadata and regenerate\\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+\subsection{Limitations}
+The evaluation used an internal test corpus and does not represent every publisher or article type. Some results depend on the quality of incoming XML and on the maturity of journal configuration. Complex legacy templates may require an initial period of rule discovery before stable automation is achieved.
+
+The example figures in this demonstration template are placeholders from the standard \LaTeX{} \texttt{mwe} package. In a production article they would be replaced with real artwork, diagrams, screenshots, or charts while retaining the same \texttt{figure*} structure.
 
 \section{Conclusion}
-The project establishes a clean repository, a compiling LuaLaTeX baseline, realistic article content, and a regression structure. The next milestone is to replace the native first-page body with a special page-builder while keeping the source unchanged and preserving the reference design.
+NeoPage demonstrates that structured XML processing, reusable journal templates, native two-column composition, standard wide floats, and automated quality control can be combined into a scalable scholarly publishing workflow. The platform improves repeatability and exposes exceptional cases earlier, while preserving human review for decisions that require editorial or visual expertise.
+
+Future work will expand automated table analysis, accessibility validation, semantic PDF tagging, and machine-assisted diagnosis of visual defects. The long-term objective is not merely faster page creation, but a transparent and testable production system in which every output can be traced back to its content, configuration, and software revision.
+
+\section*{Declarations}
+\textcolor{urpblue}{\textbf{Data Availability Statement:}} The demonstration data supporting this article are synthetic and are included solely to illustrate the reusable template.
+
+\textcolor{urpblue}{\textbf{Artificial Intelligence Usage Statement:}} Draft example prose was prepared for template demonstration and was reviewed by the authors.
+
+\textcolor{urpblue}{\textbf{Author Contributions:}} Concept - S.M.; Design - S.M., N.R.; Implementation - S.M., A.K.; Testing - M.S., R.D.; Writing - S.M.; Review - all authors.
+
+\textcolor{urpblue}{\textbf{Declaration of Interests:}} The authors declare no competing interests.
+
+\textcolor{urpblue}{\textbf{Funding:}} No external funding was received for this template demonstration.
+
+\section{References}
+\begin{enumerate}[leftmargin=13pt,itemsep=2pt,label={}]
+  \item Lamport L. \textit{LaTeX: A Document Preparation System}. 2nd ed. Addison-Wesley; 1994. \crossref
+  \item Mittelbach F, Goossens M. \textit{The LaTeX Companion}. 3rd ed. Addison-Wesley; 2023. \crossref
+  \item World Wide Web Consortium. Extensible Markup Language (XML) 1.0. W3C Recommendation. \crossref
+  \item National Information Standards Organization. Journal Article Tag Suite. ANSI/NISO Z39.96. \crossref
+  \item Adobe Systems. PDF Reference and ISO 32000 document model. \crossref
+  \item Knuth DE. The \TeX book. Addison-Wesley; 1984. \crossref
+  \item LuaTeX Development Team. LuaTeX reference manual. Version 1.18. \crossref
+  \item International Organization for Standardization. ISO 14289-1: Document management applications---Electronic document file format enhancement for accessibility. \crossref
+  \item Bringhurst R. \textit{The Elements of Typographic Style}. Hartley and Marks; 2013. \crossref
+  \item W3C. Web Content Accessibility Guidelines 2.2. W3C Recommendation. \crossref
+\end{enumerate}
 \end{document}

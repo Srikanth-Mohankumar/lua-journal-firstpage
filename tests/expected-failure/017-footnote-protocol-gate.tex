@@ -1,0 +1,10 @@
+\documentclass{tnqjournal}
+\title{Footnote Ownership Gate}
+\abstracttext{This document deliberately requests an insertion before the page-one transaction has committed.}
+\keywords{footnote; ownership protocol}
+\authorstub{Protocol Tester}
+\begin{document}
+\maketitle
+\section{Introduction}
+FOOTNOTEGATE9831 A first-page footnote\footnote{This insertion must not be silently copied or lost.} requires its own atomic protocol.
+\end{document}

@@ -1,0 +1,20 @@
+\documentclass{tnqjournal}
+\title{Independent Author-Stub Continuation Regression}
+\abstracttext{The article stream must begin even when the independently measured author-stub stream is much taller than the first page.}
+\keywords{author metadata; independent stream; continuation}
+\newcount\stubrow
+\newcommand\stubrows{%
+  \stubrow=1
+  \loop
+    Author metadata row \the\stubrow\par
+    \advance\stubrow by 1
+  \ifnum\stubrow<96
+  \repeat}
+\authorstub{STUBSTART9201\par\stubrows STUBEND9202}
+\begin{document}
+\maketitle
+\section{Introduction}
+ARTICLESTART9203 The article starts on page one and does not wait for the author metadata to finish.
+\section{Conclusion}
+ARTICLEEND9204 A short article also exercises automatic stub draining at the end of the document.
+\end{document}

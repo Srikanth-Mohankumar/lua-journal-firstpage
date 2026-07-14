@@ -1,0 +1,18 @@
+\documentclass{tnqjournal}
+\title{Line-Level Transaction Regression}
+\abstracttext{This compact abstract leaves room for the uninterrupted body paragraph to cross the first-page boundary.}
+\keywords{line boxes; transaction; continuation}
+\authorstub{\textbf{Line Tester}\par Chennai, India}
+\newcommand\linechunk{The automated formatter receives structured prose and must preserve every formed line when page geometry changes. The page builder chooses a legal vertical breakpoint while the source paragraph remains open. Content before and after that breakpoint must retain its original order. }
+\begin{document}
+\maketitle
+\section{Introduction}
+LINESTART9001 \linechunk\linechunk\linechunk\linechunk\linechunk
+LINEMIDDLE9002 \linechunk\linechunk\linechunk\linechunk\linechunk
+\linechunk\linechunk\linechunk\linechunk\linechunk
+\linechunk\linechunk\linechunk\linechunk\linechunk
+\linechunk\linechunk\linechunk
+LINEEND9003 This sentence closes the single uninterrupted paragraph.
+\section{Following section}
+AFTERPAR9004 Native two-column composition continues after the paragraph.
+\end{document}

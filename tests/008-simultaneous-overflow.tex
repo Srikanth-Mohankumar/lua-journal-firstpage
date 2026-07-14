@@ -1,0 +1,26 @@
+\documentclass{tnqjournal}
+\title{Simultaneous Main-Stream and Side-Stream Overflow}
+\newcommand\abstractchunk{The abstract is part of the ordered article galley and may continue through the native grid while independently owned author metadata occupies the opposite lane. }
+\abstracttext{COMBABSSTART9301 \abstractchunk\abstractchunk\abstractchunk\abstractchunk\abstractchunk\abstractchunk\abstractchunk\abstractchunk\abstractchunk\abstractchunk\abstractchunk\abstractchunk\abstractchunk\abstractchunk\abstractchunk\abstractchunk\abstractchunk\abstractchunk COMBABSEND9302}
+\keywords{simultaneous overflow; independent streams; COMBKEY9303}
+\newcount\stubrow
+\newcommand\stubrows{%
+  \stubrow=1
+  \loop
+    Combined metadata row \the\stubrow
+    \ifnum\stubrow=100 STUBMID9304\fi
+    \par
+    \advance\stubrow by 1
+  \ifnum\stubrow<151
+  \repeat}
+\authorstub{COMBSTUBSTART9305\par\stubrows COMBSTUBEND9306}
+\newcommand\bodychunk{The native article stream continues in source order while a measured stub fragment reserves only the top of a right column. Each completed line remains owned by TeX and LaTeX after the first-page handoff. }
+\begin{document}
+\maketitle
+\section{Introduction}
+COMBARTSTART9307 \bodychunk\bodychunk\bodychunk\bodychunk\bodychunk
+\bodychunk\bodychunk\bodychunk\bodychunk\bodychunk
+\bodychunk\bodychunk\bodychunk\bodychunk\bodychunk
+\bodychunk\bodychunk\bodychunk\bodychunk\bodychunk
+COMBARTEND9308
+\end{document}

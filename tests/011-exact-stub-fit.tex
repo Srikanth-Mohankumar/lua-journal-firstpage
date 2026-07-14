@@ -1,0 +1,18 @@
+\documentclass{tnqjournal}
+\title{Exact Author-Stub Fragment Boundary}
+\abstracttext{The first author fragment contains exactly the measured number of line origins accepted by the page-one side lane.}
+\keywords{exact fit; author stub; boundary}
+\newcount\stubrow
+\newcommand\stubrows{%
+  \stubrow=1
+  \loop
+    Exact stub row \the\stubrow\par
+    \advance\stubrow by 1
+  \ifnum\stubrow<30
+  \repeat}
+\authorstub{EXACTSTUBSTART9601\par\stubrows EXACTSTUBEND9602}
+\begin{document}
+\maketitle
+\section{Introduction}
+EXACTARTICLE9603 A fragment that exactly fits must leave no phantom stub continuation.
+\end{document}
